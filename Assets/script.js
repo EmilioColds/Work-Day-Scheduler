@@ -4,15 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
   var endHour = 17;
   var hourContainer = $('.container-lg');
 
-  $(function () {
-    currentDate = dayjs();
-    $('#currentDay').text(currentDate.format('dddd, MMMM D'));
-
     var generateTimeBlocks = () => {
       var currentHour = dayjs().hour();
     
       for (let hour = startHour; hour <= endHour; hour++) {
-        var displayHour = dayjs().hour().format('hA');
+        var displayHour = dayjs().set('hour', hour).format('hA');
         var timeBlock = $(`<div id="hour-${hour}" class="row time-block"></div>`);
     
         if (hour < currentHour) {
@@ -37,13 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     };
 
+    $(function () {
+      currentDate = dayjs();
+      $('#currentDay').text(currentDate.format('dddd, MMMM D'));
+      generateTimeBlocks();
+      loadEvents();
+
     $(document).on('click', '.saveBtn', function() {
       var blockHour = $(this).parent().attr('id');
       var eventText = $(this).siblings('.description').val();
       localStorage.setItem(blockHour, eventText);
     });
   });
-
-  generateTimeBlocks();
-  loadEvents();
 });
