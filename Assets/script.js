@@ -1,9 +1,11 @@
+// Created the JQuery variables with ID's, classes and specific values after all of the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   var currentDate = $('#currentDay');
   var startHour = 9;
   var endHour = 17;
   var hourContainer = $('.container-lg');
 
+  // Created a variable and function to cycle each hour between 9AM - 5PM, give them the correct styling depending of the current hour and append it to the HTML
     var generateTimeBlocks = () => {
       var currentHour = dayjs().hour();
     
@@ -26,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
+    // Added this function to retrieve, show and position the correct events written by the user at the time blocks
     var loadEvents = () => {
       for (let hour = startHour; hour <= endHour; hour++) {
         var eventText = localStorage.getItem(`hour-${hour}`) || "";
@@ -33,12 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     };
 
+    // Added the current date with DayJS API to the "currentDay" ID so that it shows at the header of the page
     $(function () {
       currentDate = dayjs();
       $('#currentDay').text(currentDate.format('dddd, MMMM D'));
       generateTimeBlocks();
       loadEvents();
 
+    // Added the event listener to the save buttons and set the items that will be stored via localStorage
     $(document).on('click', '.saveBtn', function() {
       var blockHour = $(this).parent().attr('id');
       var eventText = $(this).siblings('.description').val();
